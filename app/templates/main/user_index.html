@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf%}
+{% block title %}New ID - {{ current_user.username }}{% endblock %}
+{% block styles %}
+  {{super()}}
+  <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
+{% endblock %}
+
+
+{% block page_content %}
+<div class="page-header">
+    <h1>Hello, {% if current_user.is_authenticated() %}{{ current_user.username }}{% else %}Stranger{% endif %}!</h1>
+</div>
+<div class="row">
+	<div class="col-md-6">
+		<img class="center-block" src="{{ qrcode(request.url_root + url_for('main.profile', profile_url=current_user.profile_url)[1:]) }}">
+
+    <!-- twitter   -->
+    {% if not current_user.twitter or current_user.twitter == "" %}
+    <a href="{{url_for('social.twitter_login')}}">
+      <i style="color: #CCCCCC;" class="fa fa-twitter fa-5x"></i>
+      </a>
+    {% else %}
+      <a href="{{url_for('social.twitter_logout')}}" alt="disconnect">
+        <i style="color: #000;"class="fa fa-twitter fa-5x"></i>
+      </a>
+    {% endif %}
+    <!-- twitter   end -->
+    <!-- spotify   start -->
+    {% if not current_user.spotify or current_user.spotify == "" %}
+    <a href="{{url_for('social.spotify_login')}}">
+      <i style="color: #CCCCCC;" class="fa fa-spotify fa-5x"></i>
+    </a>
+    {% else %}
+      <a href="{{url_for('social.spotify_logout')}}">
+        <i style="color: #000;" class="fa fa-spotify fa-5x"></i>
+      </a>
+    {% endif %}
+    <!-- spotify   end -->
+    <!-- skype   start -->
+    {% if not current_user.skype or current_user.skype == "" %}
+    <!-- <a style="border-bottom: none;" href="#" id="skype" data-type="text" data-title="Enter Skype username"> -->
+    <a href="">
+      <i style="color: #CCCCCC;" class="fa fa-skype fa-5x"></i>
+    </a>
+    {% else %}
+      <a href="">
+        <i style="color: #000;" class="fa fa-skype fa-5x"></i>
+      </a>
+    {% endif %}
+    <!-- skype   end -->
+    <!-- instagram   start -->
+    {% if not current_user.instagram or current_user.instagram == "" %}
+    <a href="">
+      <i style="color: #CCCCCC;" class="fa fa-instagram fa-5x"></i>
+    </a>
+    {% else %}
+      <a href="">
+        <i style="color: #000;" class="fa fa-instagram fa-5x"></i>
+      </a>
+    {% endif %}
+    <!-- instagram   end -->
+    <!-- vk start -->
+    {% if not current_user.vk or current_user.vk == "" %}
+	   <a href="">
+       <i style="color: #CCCCCC;" class="fa fa-vk fa-5x"></i>
+     </a>
+	  {% else %}
+     <a href="">
+       <i style="color: #000;" class="fa fa-vk fa-5x"></i>
+     </a>
+    {% endif %}
+    <!-- vk end -->
+    <!-- googleplus start -->
+    {% if not current_user.googleplus or current_user.googleplus == "" %}
+	   <a href="">
+       <i style="color: #CCCCCC;" class="fa fa-google-plus fa-5x"></i>
+     </a>
+	  {% else %}
+     <a href="">
+       <i style="color: #000;" class="fa fa-google-plus fa-5x"></i>
+     </a>
+    {% endif %}
+    <!-- googleplus end -->
+    <!-- github start -->
+    {% if not current_user.github or current_user.github == "" %}
+	   <a href="">
+       <i style="color: #CCCCCC;" class="fa fa-github fa-5x"></i>
+     </a>
+	  {% else %}
+     <a href="">
+       <i style="color: #000;" class="fa fa-github fa-5x"></i>
+     </a>
+    {% endif %}
+    <!-- github end -->
+    <!-- twitch start -->
+    {% if not current_user.twitch or current_user.twitch == "" %}
+	   <a href="">
+       <i style="color: #CCCCCC;" class="fa fa-twitch fa-5x"></i>
+     </a>
+	  {% else %}
+     <a href="">
+       <i style="color: #000;" class="fa fa-twitch fa-5x"></i>
+     </a>
+    {% endif %}
+    <!-- twitch end -->
+    <!-- reddit start -->
+    {% if not current_user.reddit or current_user.reddit == "" %}
+	   <a href="">
+       <i style="color: #CCCCCC;" class="fa fa-reddit fa-5x"></i>
+     </a>
+	  {% else %}
+     <a href="">
+       <i style="color: #000;" class="fa fa-reddit fa-5x"></i>
+     </a>
+    {% endif %}
+    <!-- reddit end -->
+    <!-- linkedin start -->
+    {% if not current_user.linkedin or current_user.linkedin == "" %}
+	   <a href="">
+       <i style="color: #CCCCCC;" class="fa fa-linkedin fa-5x"></i>
+     </a>
+	  {% else %}
+     <a href="">
+       <i style="color: #000;" class="fa fa-linkedin fa-5x"></i>
+     </a>
+    {% endif %}
+    <!-- linkedin end -->
+    <!-- soundcloud start -->
+    {% if not current_user.soundcloud or current_user.soundcloud == "" %}
+	   <a href="">
+       <i style="color: #CCCCCC;" class="fa fa-soundcloud fa-5x"></i>
+     </a>
+	  {% else %}
+     <a href="">
+       <i style="color: #000;" class="fa fa-soundcloud fa-5x"></i>
+     </a>
+    {% endif %}
+    <!-- soundcloud end -->
+    <!-- steam start -->
+    {% if not current_user.steam or current_user.steam == "" %}
+	   <a href="">
+       <i style="color: #CCCCCC;" class="fa fa-steam fa-5x"></i>
+     </a>
+	  {% else %}
+     <a href="">
+       <i style="color: #000;" class="fa fa-steam fa-5x"></i>
+     </a>
+    {% endif %}
+    <!-- steam end -->
+    <!-- pinterest start -->
+    {% if not current_user.pinterest or current_user.pinterest == "" %}
+	   <a href="">
+       <i style="color: #CCCCCC;" class="fa fa-pinterest fa-5x"></i>
+     </a>
+	  {% else %}
+     <a href="">
+       <i style="color: #000;" class="fa fa-pinterest fa-5x"></i>
+     </a>
+    {% endif %}
+    <!-- pinterest end -->
+
+
+    <br>
+
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+      Connections
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">History</h4>
+          </div>
+          <div class="modal-body">
+            <ul>
+              {% for connected_user in recent_connect_user %}
+              <li> <a href="{{url_for('main.profile', profile_url=connected_user.profile_url)}}">{{connected_user.firstname}} {{connected_user.lastname}}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+	</div>
+
+	<div class="col-md-4">
+	    {{ wtf.quick_form(form) }}
+	</div>
+
+</div>
+{% endblock %}

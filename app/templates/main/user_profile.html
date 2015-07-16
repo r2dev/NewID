@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block title %}{{ user.username }}{% endblock %}
+{% block page_content %}
+<div class="row">
+	<div class="col-md-3">
+	</div>
+	<div class="col-md-6">
+	<img class="center-block" src="{{ qrcode(request.url_root + url_for('main.profile', profile_url=user.profile_url)[1:]) }}">
+	<h1>{{ user.firstname }} {{ user.lastname }}</h1>
+	<ul>
+		<li class="email">
+			<i class="fa fa-envelope-o fa-1g"></i>
+			<a href="mailto:{{user.email}}">{{user.email}}</a>
+		</li>
+		{% if user.twitter %}
+		<li class="twitter">
+			<i class="fa fa-twitter fa-1g"></i>
+			<a target="_blank" href="https://twitter.com/{{user.twitter}}" title="{{user.username}}'s twitter">{{user.twitter}}</a>
+		</li>
+		{% endif %}
+		{% if user.spotify %}
+		<li class="spotify">
+			<i class="fa fa-spotify fa-1g"></i>
+			<a target="_blank" href="https://open.spotify.com/user/{{user.spotify}}" title="{{user.username}}'s spotify">{{user.spotify}}</a>
+		</li>
+		{% endif %}
+		{% if user.phone %}
+		<li class="phone">
+			<i class="fa fa-phone fa-1g"></i>
+			<a href="tel:{{user.phone}}" title="Call {{user.username}}">{{user.phone}}</a>
+		</li>
+		{% endif %}
+
+		{% if user.skype %}
+		<li class="skype">
+			<i class="fa fa-skype fa-1g"></i>
+			<a target="_blank" href="skype:{{user.skype}}?call" title="Skype {{user.username}}">{{user.skype}}</a>
+		</li>
+		{% endif %}
+
+		{% if user.twitch %}
+		<li class="twitch">
+			<i class="fa fa-twitch fa-1g"></i>
+			<a target="_blank" href="http://www.twitch.tv/{{user.twitch}}/profile" title="Twitch">{{user.twitch}}</a>
+		</li>
+		{% endif %}
+		{% if user.instagram %}
+		<li class="instagram">
+			<i class="fa fa-instagram fa-1g"></i>
+			<a target="_blank" href="https://instagram.com/{{user.instagram}}" title="Instagram">{{user.instagram}}</a>
+		</li>
+		{% endif %}
+		{% if user.reddit %}
+		<li class="reddit">
+			<i class="fa fa-reddit fa-1g"></i>
+			<a target="_blank" href="https://www.reddit.com/user/{{user.reddit}}" title="Reddit">{{user.reddit}}</a>
+		</li>
+		{% endif %}
+		{% if user.github %}
+		<li class="github">
+			<i class="fa fa-github fa-1g"></i>
+			<a target="_blank" href="https://github.com/{{user.github}}" title="Github">{{user.github}}</a>
+		</li>
+		{% endif %}
+		{% if user.steam %}
+		<li class="steam">
+			<i class="fa fa-steam fa-1g"></i>
+			<a target="_blank" href="http://steamcommunity.com/profiles/{{user.steam}}" title="Steam">{{user.steam}}</a>
+		</li>
+		{% endif %}
+		{% if user.linkedin %}
+		<li class="linkedin">
+			<i class="fa fa-linkedin fa-1g"></i>
+			<a target="_blank" href="https://www.linkedin.com/profile/view?id={{user.linkedin}}" title="Linkedin">{{user.linkedin}}</a>
+		</li>
+		{% endif %}
+		{% if user.pinterest %}
+		<li class="pinterest">
+			<i class="fa fa-pinterest fa-1g"></i>
+			<a target="_blank" href="https://www.pinterest.com/{{user.pinterest}}" title="Pinterest">{{user.pinterest}}</a>
+		</li>
+		{% endif %}
+		{% if user.googleplus %}
+		<li class="googleplus">
+			<i class="fa fa-google-plus fa-1g"></i>
+			<a target="_blank" href="https://plus.google.com/{{user.googleplus}}/about" title="Google+">{{user.googleplus}}</a>
+		</li>
+		{% endif %}
+		{% if user.alibaba %}
+		<li class="alibaba">
+			Alibaba:
+			<a target="_blank" href="http://{{user.alibaba}}.en.alibaba.com/" title="Aliaba">{{user.alibaba}}'s profile</a>
+		{% endif %}
+	</ul>
+	{% if current_user != user %}
+		{% if current_user.is_following(user) %}
+		<button type="button" class="btn btn-primary btn-lg" onclick="location.href='{{url_for('main.disconnect_user', profile_url=user.profile_url)}}'">Unfollow</button>
+		{% else %}
+			<button type="button" class="btn btn-primary btn-lg" onclick="location.href='{{url_for('main.connect_user', profile_url=user.profile_url)}}'">Follow</button>
+		{% endif %}
+	{% endif %}
+</div>
+	<div class="col-md-3">
+	</div>
+</div>
+{% endblock %}
