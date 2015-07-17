@@ -1,6 +1,21 @@
 {% extends "bootstrap/base.html" %}
 {% block styles -%}
 {{super()}}
+<style>
+html,
+body {
+  height: 100%;
+}
+#container {
+  min-height: 100%;
+  height: auto;
+  margin: 0 auto -60px;
+  padding: 0 0 60px;
+}
+#footer {
+  height: 60px;
+}
+</style>
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 {% endblock styles %}
 {% block title %}New ID{% endblock %}
@@ -65,5 +80,14 @@
     {% endfor %}
 
     {% block page_content %}{% endblock %}
+</div>
+<div id="footer">
+      <div class="container">
+          Contact us:
+          <br/>
+          Email: <a href="mailto:newidteam@gmail.com">newidteam@gmail.com</a>
+          Phone: <a href="tel:16478355664">1(647)835-5664</a>
+          <br/>
+      </div>
 </div>
 {% endblock %}
