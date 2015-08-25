@@ -1,3 +1,3 @@
 from flask import Blueprint
 api = Blueprint('api', __name__)
-from . import authentication, errors, users
+from . import authentication, errors, users, decorators

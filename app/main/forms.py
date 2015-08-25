@@ -1,10 +1,11 @@
 from wtforms import StringField, SubmitField, SelectField, DateField
-from wtforms.validators import Required, Length, Email, Optional, URL
+from wtforms.validators import Required, Length, Email, Optional, URL, Length
 from flask.ext.wtf import Form
 from wtforms import ValidationError
 from ..models import User
 from flask.ext.login import current_user
 class PersonalForm(Form):
+	username = StringField('Username', validators=[Required(), Length(5, 64)])
 	firstname = StringField('First Name', validators=[Optional()])
 	midname = StringField('Mid Name', validators=[Optional()])
 	lastname = StringField('Last Name', validators=[Optional()])
@@ -14,7 +15,6 @@ class PersonalForm(Form):
 		("None", ""),
 		("Male", "Male"),
 		("Female", "Female")])
-	profile_url = StringField("newid.ca/", validators=[Required(), Length(5,15)])
 	location = StringField("Location", validators=[Optional()])
 	website = StringField("Website", validators=[Optional(), URL()])
 	skype = StringField("Skype Username", validators=[Optional()])
@@ -32,7 +32,7 @@ class PersonalForm(Form):
 	alibaba = StringField("Alibaba Company name", validators=[Optional()])
 	submit = SubmitField("Save")
 
-	def validate_profile_url(self, field):
-		find = User.query.filter_by(profile_url=field.data).first()
+	def validate_username(self, field):
+		find = User.query.filter_by(username=field.data).first()
 		if find and not (find == current_user):
-			raise ValidationError('Profile URL already in use')
+			raise ValidationError('Username is already in use')

@@ -26,7 +26,7 @@ def verify_password(email_or_token, password):
 @api.before_request
 @auth.login_required
 def before_request():
-	g.user = current_user
+	pass
 
 @auth.error_handler
 def auth_error():
@@ -35,6 +35,6 @@ def auth_error():
 @api.route('/token')
 @auth.login_required
 def get_token():
-	if g.current_user.is_anonymous() or g.token_used:
+	if g.current_user.is_anonymous():
 		return unauthorized('Invalid credentials')
 	return jsonify({'token': g.current_user.generate_auth_token()})

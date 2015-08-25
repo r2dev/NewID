@@ -13,7 +13,7 @@
 </div>
 <div class="row">
 	<div class="col-md-6">
-		<img class="center-block" src="{{ qrcode(request.url_root + url_for('main.profile', profile_url=current_user.profile_url)[1:]) }}">
+		<img class="center-block" src="{{ qrcode(request.url_root + url_for('main.profile', username=current_user.username)[1:]) }}">
 
     <!-- twitter   -->
     {% if not current_user.twitter or current_user.twitter == "" %}
@@ -180,7 +180,7 @@
           <div class="modal-body">
             <ul>
               {% for connected_user in recent_connect_user %}
-              <li> <a href="{{url_for('main.profile', profile_url=connected_user.profile_url)}}">{{connected_user.firstname}} {{connected_user.lastname}}</a></li>
+              <li> <a href="{{url_for('main.profile', username=connected_user.username)}}">{{connected_user.firstname}} {{connected_user.lastname}}</a></li>
               {% endfor %}
             </ul>
           </div>

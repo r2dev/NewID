@@ -5,6 +5,9 @@ from itsdangerous import JSONWebSignatureSerializer as Serializer
 from flask.ext.login import AnonymousUserMixin, UserMixin
 from . import db, login_manager, app
 import flask.ext.whooshalchemy as wa
+import qrcode
+import StringIO
+import base64
 
 
 #contact history
@@ -21,7 +24,7 @@ class User(UserMixin, db.Model):
 	__tablename__ = 'users'
 	__searchable__ = ['username']
 	id = db.Column(db.Integer, primary_key=True)
-	email = db.Column(db.String(64), unique=True, nullable=False)
+	email = db.Column(db.String(254), unique=True, nullable=False)
 	username = db.Column(db.String(64), unique=True, nullable=False)
 	password_hash = db.Column('password', db.String(128), nullable=False)
 	firstname = db.Column(db.String(35))
@@ -34,9 +37,7 @@ class User(UserMixin, db.Model):
 	website = db.Column(db.String(200))
 	location = db.Column(db.String(100))
 	lastseen = db.Column(db.DateTime)
-	profile_url = db.Column(db.String(64), unique=True, nullable=False)
 	#avatar = db.Column(db.String(200)) not useable yet
-	#facebook
 	vk = db.Column(db.String(32))
 	googleplus = db.Column(db.String(30))
 	twitch = db.Column(db.String(30))
@@ -53,7 +54,6 @@ class User(UserMixin, db.Model):
 	pinterest = db.Column(db.String(15))
 	alibaba = db.Column(db.String(30))
 	followed = db.relationship('Follow', foreign_keys=[Follow.follower_id], backref=db.backref('follower', lazy='joined'), lazy='dynamic', cascade='all, delete-orphan')
-
 	followers = db.relationship('Follow', foreign_keys=[Follow.followed_id], backref=db.backref('followed', lazy='joined'), lazy='dynamic', cascade='all, delete-orphan')
 
 	@property
@@ -72,16 +72,13 @@ class User(UserMixin, db.Model):
 		json_user = {
 			'username': self.username,
 			'gender': self.gender,
-			'datajoined': self.datejoined,
 			'email': self.email,
 			'firstname': self.firstname,
 			'lastname': self.lastname,
 			'midname': self.midname,
-			'skype': self.skype,
-			'twitter': self.twitter,
-			'spotify': self.spotify,
+			'location': self.location,
 			'phone': self.phone,
-			'website': self.website
+			'qrcode': qrcode_string(self.username)
 		}
 		return json_user
 	def generate_auth_token(self):
@@ -103,7 +100,6 @@ class User(UserMixin, db.Model):
 		self.username = username
 		self.password_hash = generate_password_hash(password)
 		self.lastseen = datetime.utcnow()
-		self.profile_url = username
 
 	#add
 	def follow(self, user):
@@ -113,7 +109,7 @@ class User(UserMixin, db.Model):
 			db.session.commit()
 			flash('Follow success')
 		else:
-			flash('already contact')
+			flash('Already contact')
 	def unfollow(self, user):
 		f = self.followed.filter_by(followed_id=user.id).first()
 		if f:
@@ -137,6 +133,20 @@ def load_user(userid):
 		return user
 	else:
 		return None
+def qrcode_string(data, version=None, error_correction='L', box_size=10, border=0, fit=True):
+	qr = qrcode.QRCode(
+	version=version,
+	error_correction=qrcode.constants.ERROR_CORRECT_L,
+	box_size=box_size,
+	border=border
+	)
+	qr.add_data(data)
+	qr.make(fit=fit)
+	# creates qrcode base64
+	io = StringIO.StringIO()
+	qr_img = qr.make_image()
+	qr_img.save(io)
+	return base64.b64encode(io.getvalue())
 
 login_manager.anonymous_user = AnonymousUserMixin
 wa.whoosh_index(app, User)

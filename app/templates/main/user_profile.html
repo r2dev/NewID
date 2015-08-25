@@ -5,7 +5,7 @@
 	<div class="col-md-3">
 	</div>
 	<div class="col-md-6">
-	<img class="center-block" src="{{ qrcode(request.url_root + url_for('main.profile', profile_url=user.profile_url)[1:]) }}">
+	<img class="center-block" src="{{ qrcode(request.url_root + url_for('main.profile', username=user.username)[1:]) }}">
 	<h1>{{ user.firstname }} {{ user.lastname }}</h1>
 	<ul>
 		<li class="email">
@@ -94,9 +94,9 @@
 	</ul>
 	{% if current_user != user %}
 		{% if current_user.is_following(user) %}
-		<button type="button" class="btn btn-primary btn-lg" onclick="location.href='{{url_for('main.disconnect_user', profile_url=user.profile_url)}}'">Unfollow</button>
+		<button type="button" class="btn btn-primary btn-lg" onclick="location.href='{{url_for('main.disconnect_user', username=user.username)}}'">Unfollow</button>
 		{% else %}
-			<button type="button" class="btn btn-primary btn-lg" onclick="location.href='{{url_for('main.connect_user', profile_url=user.profile_url)}}'">Follow</button>
+			<button type="button" class="btn btn-primary btn-lg" onclick="location.href='{{url_for('main.connect_user', username=user.username)}}'">Follow</button>
 		{% endif %}
 	{% endif %}
 </div>

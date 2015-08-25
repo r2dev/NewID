@@ -37,25 +37,25 @@ def index():
 # 				return redirect(url_for('main.index'))
 # 			else:
 # 				return redirect(url_for('auth.register'))
-@main.route('/user/<profile_url>')
+@main.route('/user/<username>')
 @login_required
-def profile(profile_url):
-	user = User.query.filter_by(profile_url=profile_url).first_or_404()
+def profile(username):
+	user = User.query.filter_by(username=username).first_or_404()
 	return render_template("main/user_profile.html", user=user)
 
-@main.route('/user/<profile_url>/connect')
+@main.route('/user/<username>/connect')
 @login_required
-def connect_user(profile_url):
-	user = User.query.filter_by(profile_url=profile_url).first_or_404()
+def connect_user(username):
+	user = User.query.filter_by(username=username).first_or_404()
 	current_user.follow(user)
-	return redirect(url_for('main.profile', profile_url=profile_url))
+	return redirect(url_for('main.profile', username=username))
 
-@main.route('/user/<profile_url>/disconnect')
+@main.route('/user/<username>/disconnect')
 @login_required
-def disconnect_user(profile_url):
-	user = User.query.filter_by(profile_url=profile_url).first_or_404()
+def disconnect_user(username):
+	user = User.query.filter_by(username=username).first_or_404()
 	current_user.unfollow(user)
-	return redirect(url_for('main.profile', profile_url=profile_url))
+	return redirect(url_for('main.profile', username=username))
 
 @main.route('/search/<query>')
 def search(query):
