@@ -2,7 +2,7 @@ from flask import jsonify, g
 from flask.ext.httpauth import HTTPBasicAuth
 from flask.ext.login import AnonymousUserMixin, current_user
 from ..models import User
-from . import api
+from . import api_bp
 from .errors import unauthorized, forbidden
 
 auth = HTTPBasicAuth()
@@ -23,7 +23,7 @@ def verify_password(email_or_token, password):
 	g.token_used = False
 	return user.verify_password(password)
 
-@api.before_request
+@api_bp.before_request
 @auth.login_required
 def before_request():
 	pass
@@ -32,9 +32,9 @@ def before_request():
 def auth_error():
 	return unauthorized('Invalid credentials')
 
-@api.route('/token')
-@auth.login_required
-def get_token():
-	if g.current_user.is_anonymous():
-		return unauthorized('Invalid credentials')
-	return jsonify({'token': g.current_user.generate_auth_token()})
+# @api.route('/token')
+# @auth.login_required
+# def get_token():
+# 	if g.current_user.is_anonymous():
+# 		return unauthorized('Invalid credentials')
+# 	return jsonify({'token': g.current_user.generate_auth_token()})

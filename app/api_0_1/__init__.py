@@ -1,3 +1,5 @@
 from flask import Blueprint
-api = Blueprint('api', __name__)
+from flask_restful import Api
+api_bp = Blueprint('api', __name__)
+api = Api(api_bp)
 from . import authentication, errors, users, decorators

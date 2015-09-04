@@ -14,6 +14,7 @@ class Config:
 	#RECAPTCHA_DATA_ATTRS = {'theme': 'dark'}
 	RECAPTCHA_PUBLIC_KEY = '6Ld0rAgTAAAAAOaWD7UQkataeDWLBTRoUjmWMIS1'
 	RECAPTCHA_PRIVATE_KEY = '6Ld0rAgTAAAAAKtv3eZI_AVXBmE3AB06uwriu0yB'
+	ERROR_404_HELP = False
 	UPLOAD_FOLDER = os.path.join(basedir, 'avatar')
 	#avatar entensions
 	ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
